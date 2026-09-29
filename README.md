@@ -42,6 +42,59 @@ On the `:X` path, positions are sent and read as 32-bit values. The legacy path 
 
 A board's firmware version decides which half of the rest of these notes applies to it.
 
+### Which mounts can run newer firmware
+
+Based on Sky-Watcher's [motor-controller firmware downloads](https://skywatcher.com/download/software/motor-control-firmware/) as of September 2026, plus [Sky-Watcher USA](https://www.skywatcherusa.com/pages/firmware-and-software) for the Star Adventurer 2i and Mini. Each row is one hardware revision. The **Revision** column is taken from the download notes, which split some mounts by USB port, Wi-Fi, board generation or build date. A dash means the notes don't split that mount.
+
+**New firmware available (newer than 3.38, uses `:X`)**
+
+| Mount | Revision | Board | Latest |
+| --- | --- | --- | --- |
+| EQ6 | Built-in USB Type B port | MC015 | 3.47 |
+| EQ6-R | Built-in USB Type B port | MC015 | 3.47 |
+| AZ-EQ6 | Built-in USB Type B port | MC015 | 3.47 |
+| EQ8 | Built-in USB Type B port | MC015 | 3.47 |
+| EQ8-R / EQ8-RH | — | MC015 | 3.47 |
+| CQ350 | — | MC015 | 3.47 |
+| Star Gate Dobsonians | "Newer Star Gate series" | MC015 | 3.47 |
+| EQ3, EQ5 | 3.xx board with on-board USB | MC019 | 3.47 |
+| EQM-35 | 3.xx board with on-board USB | MC019 | 3.47 |
+| HEQ5 | 3.xx board | MC020 | 3.47 |
+| AZ-GTi, AZ-GTe, AZ-GTiX, Virtuoso GTi | Built before May 2025 | MC014 | 3.40 |
+| AZ-GTi, AZ-GTe, AZ-GTiX, Virtuoso GTi | Built after May 2025 | MC029 | 3.54 |
+| Skyliner Dobsonian GoTo | With Wi-Fi | MC014 | 3.40 |
+| Star Discovery | With Wi-Fi, built before May 2025 | MC014 | 3.40 |
+| Star Discovery | With Wi-Fi, built after May 2025 | MC029 | 3.54 |
+| Starliner Dobsonian GoTo, AZ-GO2 | Built after May 2025 | MC029 | 3.54 |
+| Fusion-120i | — | MC029 | 3.54 |
+| StarGate 16/18/20 | — | MC030 | 3.69 |
+| Wave 100i, Wave 150i | — | MC030 | 3.69 |
+| EQ-AL55i Pro | — | MC016 | 3.48 |
+| Star Adventurer GTi | — | MC021 | 3.48 |
+
+**Old firmware only (3.38 or older, uses the legacy commands)**
+
+| Mount | Revision | Board | Latest |
+| --- | --- | --- | --- |
+| EQ6 | Older board | — | 2.04 |
+| EQ6-R | No built-in USB port | — | 2.15 |
+| AZ-EQ6 | No built-in USB port | — | 2.15 |
+| EQ8 | No built-in USB port | — | 2.15 |
+| EQ3, EQ5 | Older board | — | 2.04 |
+| EQ3, EQ5 Pro GoTo | Older board | — | 2.07 |
+| EQM-35 | Older board | — | 2.07 |
+| HEQ5 | 2.xx board | — | 2.04 |
+| Skyliner Dobsonian GoTo | Without Wi-Fi | — | 2.09 |
+| Star Discovery | Without Wi-Fi | MC006 | 2.18 |
+| AZ-EQ5 | — | — | 3.01 |
+| AllView | — | — | 2.14 |
+| SynScan AZ GoTo | — | — | 2.09 |
+| Star Adventurer 2i | — | MC017 | 3.11 |
+| Star Adventurer Mini | — | — | 3.11 |
+
+- What matters is the firmware installed, not the model. MC014 units still on 3.26 or older (AZ-GTi family, Skyliner Wi-Fi, Star Discovery Wi-Fi) get the legacy commands until they're updated to 3.40. `:e` reports the installed version.
+- Star Gate Dobsonians appear under both MC015 ("newer Star Gate series") and MC030 ("StarGate 16/18/20"). The notes don't say which models use which board.
+
 ## The `:X` protocol as the library uses it
 
 The library uses nine `:X` sub-commands. It never sends 06, 07, 08, 09, 0C or 0D.

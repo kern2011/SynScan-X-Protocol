@@ -17,6 +17,7 @@ Sky-Watcher's own SynScanLink library drives motor controllers newer than MC 3.3
 - [Model differences and defaults](#model-differences-and-defaults)
 - [Notes for driver authors](#notes-for-driver-authors)
 - [Open questions](#open-questions)
+- [On-the-wire findings](on-the-wire.md) — direct measurements on a real board (EQ-AL55i Pro, MC 3.48)
 
 ## Scope and provenance
 
@@ -24,6 +25,7 @@ Sky-Watcher's own SynScanLink library drives motor controllers newer than MC 3.3
 - **Method:** only the exported and debug symbol names, type layouts, constants, and the order of calls inside a few functions were examined. No code, headers or disassembly are reproduced here.
 - **Purpose:** interoperability. Every item below is a fact about how software talks to the mount, not how Sky-Watcher wrote its code.
 - **Confidence:** anything marked *inferred* comes from a name or a call order, not from watching the wire.
+- **On the wire (separate provenance):** an independent companion document, [On-the-wire findings](on-the-wire.md), records direct serial measurements on a real board (EQ-AL55i Pro, MC 3.48). It is derived from hardware observation alone — no Sky-Watcher software, SDK or code — and stands on its own; it is not part of, nor derived from, the SDK analysis in this file.
 
 ## Protocol selection by firmware
 
@@ -282,12 +284,19 @@ On MC 3.39 and newer, following the manufacturer's sequence means sending `:X` f
 - Read positions with `:X 00` index 03 to get the full 32-bit value.
 - The manufacturer's software never sends the torque setting (000006 / 000106), so there is no reference for what it does on any board.
 
+For behaviours observed **directly on a real board** — the initialisation an axis needs before it will move, delivering a from-rest guide correction as an `:X 04` position move, trail-point tracking, and the tracking-torque setting — see the independent [On-the-wire findings](on-the-wire.md), which is derived from hardware observation alone and uses no Sky-Watcher code.
+
 ## Open questions
 
-None of this was checked on the wire. These points come from names or call order and still need confirming.
+Most of this comes from names or call order rather than the wire. The separate, independent
+[On-the-wire findings](on-the-wire.md) — hardware observation only, no Sky-Watcher code —
+covers several of these directly on a real board (MC 3.48): the `:X 0F` reply format, that
+`:X 0E` carries positions only, and that the tracking-torque setting is not implemented on
+that firmware. What remains open here:
 
 - Which user actions make the library send `:P`?
 - Which boards the library allows trail-point tracking on (the SDK manual names the AZ-GTi as one).
-- The full format of the RA and Dec fields in `:X 0A`, and whether `:X 0E` also carries rates.
+- The full format of the RA and Dec fields in `:X 0A`.
 - Whether the mount-clock rounding reflects a real board limit on accepted times.
 - The baud-rate setting (xxxx0D): which rates the board accepts, and whether it survives a power cycle.
+- Whether firmware newer than 3.48 implements the tracking-torque setting (000006 / 000106).

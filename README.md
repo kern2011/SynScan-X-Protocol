@@ -182,6 +182,44 @@ The library has no per-model knowledge: no table of mount names, and no behaviou
 | Minimum altitude | 0° | −10° to 30° |
 | Maximum altitude | 75° | 60° to 90° |
 
+### Known mount codes
+
+The mount code is the last byte of the `:e` reply. Neither the SDK nor the published command set lists these codes. The table below combines the driver tables that do: Sky-Watcher's 2013 open-source API, INDI (core `skywatcherAPI` and `indi-eqmod`), and OpenAstro's AlpacaBridge.
+
+| Code | Mount | Listed in |
+| --- | --- | --- |
+| 0x00 | EQ6 | Sky-Watcher 2013 API, INDI, AlpacaBridge |
+| 0x01 | HEQ5 | Sky-Watcher 2013 API, INDI, AlpacaBridge |
+| 0x02 | EQ5 | Sky-Watcher 2013 API, INDI, AlpacaBridge |
+| 0x03 | EQ3 | Sky-Watcher 2013 API, INDI, AlpacaBridge |
+| 0x04 | EQ8 | INDI, AlpacaBridge |
+| 0x05 | AZ-EQ6 | INDI, AlpacaBridge |
+| 0x06 | AZ-EQ5 | INDI, AlpacaBridge |
+| 0x09 | EQ-AL55i Pro | AlpacaBridge only (one owner's report) |
+| 0x0A | Star Adventurer | INDI, AlpacaBridge |
+| 0x0C | Star Adventurer GTi | indi-eqmod, AlpacaBridge |
+| 0x20 | EQ8-R Pro | INDI, AlpacaBridge |
+| 0x22 | AZ-EQ6 Pro | INDI, AlpacaBridge |
+| 0x23 | EQ6-R Pro | indi-eqmod, AlpacaBridge (INDI core names it "EQ6 Pro") |
+| 0x24 | EQ6 Pro | indi-eqmod, AlpacaBridge |
+| 0x25 | CQ350 Pro | indi-eqmod, AlpacaBridge |
+| 0x31 | EQ5 Pro | INDI, AlpacaBridge |
+| 0x32 | EQM-35 Pro | AlpacaBridge only (one owner's report) |
+| 0x44 | Wave 100i | INDI core, AlpacaBridge |
+| 0x45 | Wave 150i | INDI core, AlpacaBridge |
+| 0x80 | GT (alt-az GoTo) | Sky-Watcher 2013 API, INDI |
+| 0x81 | MF | Sky-Watcher 2013 API, INDI |
+| 0x82 | 114GT | Sky-Watcher 2013 API, INDI |
+| 0x90 | Dobsonian (DOB) | Sky-Watcher 2013 API, INDI |
+| 0xA2 | AZ-GTe | INDI core, AlpacaBridge |
+| 0xA5 | AZ-GTi | INDI, AlpacaBridge |
+| 0xF0 | "GEEHALEL" | indi-eqmod only |
+
+- Sky-Watcher's own list, in a code comment in the 2013 API, covers only 0x00–0x03, 0x80–0x82 and 0x90. The rest were matched to mounts by driver authors from user reports.
+- The sources disagree on 0x23: INDI core names it "EQ6 Pro", while indi-eqmod and AlpacaBridge name it the EQ6-R Pro and give 0x24 to the EQ6 Pro.
+- 0x09 and 0x32 each rest on a single unit, so it isn't known whether they belong to one model or a family.
+- The list is likely incomplete. Newer mounts may report codes that no table has yet.
+
 ## Notes for driver authors
 
 On MC 3.39 and newer, following the manufacturer's sequence means sending `:X` for every rate change, stop and position read.
